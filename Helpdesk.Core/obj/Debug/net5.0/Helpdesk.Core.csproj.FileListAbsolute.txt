@@ -1,0 +1,12 @@
+D:\IPB\PKL\APLIKASI HELPDESK-AMN\DB\FinalDBmergeHelpdesk\Helpdesk.Core\bin\Debug\net5.0\Helpdesk.Core.deps.json
+D:\IPB\PKL\APLIKASI HELPDESK-AMN\DB\FinalDBmergeHelpdesk\Helpdesk.Core\bin\Debug\net5.0\Helpdesk.Core.dll
+D:\IPB\PKL\APLIKASI HELPDESK-AMN\DB\FinalDBmergeHelpdesk\Helpdesk.Core\bin\Debug\net5.0\Helpdesk.Core.pdb
+D:\IPB\PKL\APLIKASI HELPDESK-AMN\DB\FinalDBmergeHelpdesk\Helpdesk.Core\obj\Debug\net5.0\Helpdesk.Core.csproj.AssemblyReference.cache
+D:\IPB\PKL\APLIKASI HELPDESK-AMN\DB\FinalDBmergeHelpdesk\Helpdesk.Core\obj\Debug\net5.0\Helpdesk.Core.GeneratedMSBuildEditorConfig.editorconfig
+D:\IPB\PKL\APLIKASI HELPDESK-AMN\DB\FinalDBmergeHelpdesk\Helpdesk.Core\obj\Debug\net5.0\Helpdesk.Core.AssemblyInfoInputs.cache
+D:\IPB\PKL\APLIKASI HELPDESK-AMN\DB\FinalDBmergeHelpdesk\Helpdesk.Core\obj\Debug\net5.0\Helpdesk.Core.AssemblyInfo.cs
+D:\IPB\PKL\APLIKASI HELPDESK-AMN\DB\FinalDBmergeHelpdesk\Helpdesk.Core\obj\Debug\net5.0\Helpdesk.Core.csproj.CoreCompileInputs.cache
+D:\IPB\PKL\APLIKASI HELPDESK-AMN\DB\FinalDBmergeHelpdesk\Helpdesk.Core\obj\Debug\net5.0\Helpdesk.Core.dll
+D:\IPB\PKL\APLIKASI HELPDESK-AMN\DB\FinalDBmergeHelpdesk\Helpdesk.Core\obj\Debug\net5.0\refint\Helpdesk.Core.dll
+D:\IPB\PKL\APLIKASI HELPDESK-AMN\DB\FinalDBmergeHelpdesk\Helpdesk.Core\obj\Debug\net5.0\Helpdesk.Core.pdb
+D:\IPB\PKL\APLIKASI HELPDESK-AMN\DB\FinalDBmergeHelpdesk\Helpdesk.Core\obj\Debug\net5.0\ref\Helpdesk.Core.dll
