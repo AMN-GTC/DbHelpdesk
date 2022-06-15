@@ -1,18 +1,15 @@
-﻿using API_DB_Conversation.DTO;
-using API_DB_Conversation.Entity;
-using API_DB_Conversation.Repositories;
-using API_DB_Conversation.Services;
-using API_DB_Conversation.Specification;
-using AutoMapper;
+﻿using AutoMapper;
+using Helpdesk.Core.Entities;
+using Helpdesk.Core.Services;
+using Helpdesk.Core.Specifications;
+using Helpdesk.DTO;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace API_DB_Conversation.Controllers
+namespace Helpdesk.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -30,12 +27,12 @@ namespace API_DB_Conversation.Controllers
         public async Task<ActionResult<ConversationDTO>> Get(int id, CancellationToken cancellationToken = default)
         {
 
-            Conversation objek = await _conversationService.GetObject(id, cancellationToken);
-            ConversationDTO ticketDTO = _mapper.Map<ConversationDTO>(objek);
-            return Ok(ticketDTO);
+            Conversation mail = await _conversationService.GetObject(id, cancellationToken);
+            ConversationDTO conversationDTO = _mapper.Map<ConversationDTO>(mail);
+            return Ok(conversationDTO);
         }
         [HttpGet]
-        public async Task<ActionResult<Conversation>> Get( CancellationToken cancellationToken = default)
+        public async Task<ActionResult<Conversation>> Get(CancellationToken cancellationToken = default)
         {
             ConversationSpecification specification = new ConversationSpecification();
             List<Conversation> listconversation = await _conversationService.GetList(specification.Build(), cancellationToken);
@@ -43,7 +40,7 @@ namespace API_DB_Conversation.Controllers
             return Ok(listdto);
         }
         [HttpPost("send")]
-        public async Task<ActionResult<ConversationDTO>> Insert([FromBody]ConversationDTO model, CancellationToken cancellationToken = default)
+        public async Task<ActionResult<ConversationDTO>> Insert([FromBody] ConversationDTO model, CancellationToken cancellationToken = default)
         {
 
             Conversation conversation = _mapper.Map<ConversationDTO, Conversation>(model);
@@ -61,7 +58,7 @@ namespace API_DB_Conversation.Controllers
                 }
                 return BadRequest(ModelState);
             }
-            
+
             return Ok();
         }
         [HttpDelete("{id}")]
@@ -86,4 +83,3 @@ namespace API_DB_Conversation.Controllers
 
     }
 }
-
