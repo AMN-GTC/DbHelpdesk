@@ -18,7 +18,8 @@ namespace Helpdesk.Infrastructure
             public DbSet<Project> ProjectSet { get; set; }
             public DbSet<Status> StatusSet { get; set; }
             public DbSet<VwExcelReportDetail> VwExcelReportDetails { get; set; }
-            
+            public DbSet<Conversation> ConversationSet { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
             {
 
@@ -45,7 +46,10 @@ namespace Helpdesk.Infrastructure
                 .Entity<VwActiveTicketSummary>()
                 .ToView(nameof(VwSumChartActiveTicketSummaries))
                 .HasNoKey();
+
+            base.OnModelCreating(modelBuilder);
             
+
             base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfiguration<Ticket>(new TicketConfiguration());
             modelBuilder.ApplyConfiguration<TimerEntity>(new TimerConfiguration());
@@ -53,6 +57,8 @@ namespace Helpdesk.Infrastructure
             modelBuilder.ApplyConfiguration<Project>(new ProjectConfiguration());
             modelBuilder.ApplyConfiguration<Status>(new StatusConfiguration());
             modelBuilder.ApplyConfiguration<VwExcelReportDetail>(new VwExcelReportDetailConfiguration());
+
+            modelBuilder.ApplyConfiguration<Conversation>(new ConversationConfiguration());
         }
     }
 }
