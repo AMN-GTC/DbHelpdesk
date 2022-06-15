@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace API_DB_Conversation.DTO
+namespace Helpdesk.DTO
 {
     public class ConversationDTO
     {
