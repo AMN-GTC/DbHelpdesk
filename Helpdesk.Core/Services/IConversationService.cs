@@ -1,17 +1,14 @@
-﻿using API_DB_Conversation.Entity;
-using Ardalis.Specification;
+﻿using Ardalis.Specification;
+using Helpdesk.Core.Entities;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace API_DB_Conversation.Services
+namespace Helpdesk.Core.Services
 {
-    public interface IService
-    {
-        Dictionary<string, List<string>> GetError();
-        Boolean GetServiceState();
-    }
     public interface IConversationService : IService
     {
         public Task SendEmailAsync(Conversation conversation, CancellationToken cancellationToken = default);
