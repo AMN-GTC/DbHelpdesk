@@ -1,8 +1,13 @@
-﻿using API_DB_Conversation.Entity;
+﻿using Helpdesk.Core.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace API_DB_Conversation.Configuration
+namespace Helpdesk.Infrastructure.Configuration
 {
     public class ConversationConfiguration : IEntityTypeConfiguration<Conversation>
     {
