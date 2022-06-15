@@ -13,12 +13,14 @@ namespace Helpdesk.Core
         IVwTicketSummaryRepo vwTicketSummaryrepo { get; }
         IVwTicketPICRepo vwTicketPICrepo { get; }
         IVwActiveTicketSummaryRepo vwActiveTicketSummaryRepo { get; }
+        IVwLastWeekTicketRepo vwLastWeekRepo { get; }
         ITicketRepositories Ticket { get; }
         ITimerRepositories Timer { get; }
         IProjectRepositories Project { get; }
         IUserRepositories User { get; }
         IStatusRepositories Status { get; }
         IVwExcelReportDetailRepository ExcelReportDetail { get; }
+        IConversationRepositories Conversation { get; }
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 
     }
