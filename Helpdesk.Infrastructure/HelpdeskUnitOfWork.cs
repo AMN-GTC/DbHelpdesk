@@ -24,7 +24,8 @@ namespace Helpdesk.Infrastructure
         private IStatusRepositories _status;
         private IVwExcelReportDetailRepository _excelReportDetailRepository;
         private IVwLastWeekTicketRepo _vwLast;
-       
+        private IConversationRepositories _conversations;
+
         public ITicketRepositories Ticket => _tickets = _tickets ?? new TicketRepositories(_dbContext);
 
         public ITimerRepositories Timer => _timer = _timer ?? new TimerRepositories(_dbContext);
@@ -44,6 +45,7 @@ namespace Helpdesk.Infrastructure
         public IVwActiveTicketSummaryRepo vwActiveTicketSummaryRepo => _vwats = _vwats ?? new VwActiveTicketSumarryRepo(_dbContext);
 
         public IVwLastWeekTicketRepo vwLastWeekRepo => _vwLast = _vwLast ?? new VwLastWeekTicketRepo(_dbContext);
+        public IConversationRepositories Conversation => _conversations = _conversations ?? new ConversationRepositories(_dbContext);
         public Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
             return _dbContext.SaveChangesAsync(cancellationToken);
