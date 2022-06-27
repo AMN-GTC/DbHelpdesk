@@ -1,20 +1,17 @@
-﻿using Ardalis.Specification;
-using Helpdesk.Core;
-using Helpdesk.Core.Entities;
-using Helpdesk.Core.Services;
-using Helpdesk.Core.Settings;
+using API_DB_Ticket.Entity;
+using API_DB_Ticket.Settings;
+using API_DB_Ticket.Specification;
+using API_DB_Ticket.UnitOfWork;
+using Ardalis.Specification;
 using MailKit.Net.Smtp;
 using MailKit.Security;
 using Microsoft.Extensions.Options;
 using MimeKit;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Helpdesk.Infrastructure.Services
+namespace API_DB_Ticket.Services
 {
     public abstract class ServiceConversation<T> : IService
     {
@@ -47,28 +44,32 @@ namespace Helpdesk.Infrastructure.Services
     }
     public class ConversationService : IConversationService
     {
-        protected IHelpdeskUnitOfWork _helpdeskUnitOfWork;
+        protected ITicketUnitOfWork _conversationUnitOfWork;
+        private readonly IMailerService _mailerService;
         private readonly MailSettings _mailSettings;
-
-        public ConversationService(IHelpdeskUnitOfWork helpdeskUnitOfWork, IOptions<MailSettings> mailSettings)
+        private readonly IOptions<MailConfig> _mailConfig;
+        public ConversationService(IOptions<MailConfig> mailConfig, IMailerService mailerService, ITicketUnitOfWork conversationUnitOfWork, IOptions<MailSettings> mailSettings)
         {
-            _helpdeskUnitOfWork = helpdeskUnitOfWork;
+            _conversationUnitOfWork = conversationUnitOfWork;
             _mailSettings = mailSettings.Value;
+            _mailerService = mailerService;
+            _mailConfig = mailConfig;
         }
 
         public async Task<Conversation> Insert(Conversation conversation, CancellationToken cancellationToken = default)
         {
+
             conversation.DateTime = System.DateTime.Now;
             conversation.CreatedBy = "PT AMN Indonesia";
-            await _helpdeskUnitOfWork.Conversation.Insert(conversation, cancellationToken);
-            await _helpdeskUnitOfWork.SaveChangesAsync(cancellationToken);
+            await _conversationUnitOfWork.Conversation.Insert(conversation, cancellationToken);
+            await _conversationUnitOfWork.SaveChangesAsync(cancellationToken);
             return conversation;
         }
 
         public async Task<bool> Delete(int id, CancellationToken cancellationToken = default)
         {
-            await _helpdeskUnitOfWork.Conversation.Delete(id, cancellationToken);
-            await _helpdeskUnitOfWork.SaveChangesAsync();
+            await _conversationUnitOfWork.Conversation.Delete(id, cancellationToken);
+            await _conversationUnitOfWork.SaveChangesAsync();
             return true;
         }
 
@@ -79,12 +80,12 @@ namespace Helpdesk.Infrastructure.Services
 
         public Task<List<Conversation>> GetList(Specification<Conversation> specification, CancellationToken cancellationToken = default)
         {
-            return _helpdeskUnitOfWork.Conversation.GetList(specification, cancellationToken);
+            return _conversationUnitOfWork.Conversation.GetList(specification, cancellationToken);
         }
 
         public Task<Conversation> GetObject(int id, CancellationToken cancellationToken = default)
         {
-            return _helpdeskUnitOfWork.Conversation.GetObject(id, cancellationToken);
+            return _conversationUnitOfWork.Conversation.GetObject(id, cancellationToken);
         }
 
         public bool GetServiceState()
@@ -99,7 +100,7 @@ namespace Helpdesk.Infrastructure.Services
             email.Sender = MailboxAddress.Parse(_mailSettings.Mail);
             //inisialisasi profil penerima email dari appsettingsjson
             email.To.Add(MailboxAddress.Parse(conversation.ToEmail));
-            //inisialisasi subject dari file conversation, nanti diisikan di API
+            //inisialisasi subject dari file conversation
             email.Subject = conversation.Subject;
             var builder = new BodyBuilder();
             builder.HtmlBody = conversation.Body;
@@ -115,7 +116,108 @@ namespace Helpdesk.Infrastructure.Services
             smtp.Disconnect(true);
         }
 
+        public async Task<Conversation> SendConversation(Conversation conversation, CancellationToken cancellationToken = default)
+        {
+            //Load Data ProjectInfo terkait conversation. 
+            Project projectinfo = new Project();
+            ProjectSpesification specification = new ProjectSpesification();
+            var listprojectinfo = await _conversationUnitOfWork.Project.GetList(specification, cancellationToken);
+            foreach (Project project in listprojectinfo)
+            {
+                projectinfo.Id = project.Id;
+                projectinfo.Sender_mail = project.Sender_mail;
+            }
+            listprojectinfo.Add(projectinfo);
+            conversation.ProjectId = projectinfo.Id;
+            conversation.ToEmail = projectinfo.Sender_mail;
+            //Simpan data conversation ke database.
+            await _conversationUnitOfWork.Conversation.Insert(conversation, cancellationToken);
+            await _conversationUnitOfWork.SaveChangesAsync(cancellationToken);
+            await SendEmailAsync(conversation, cancellationToken);
+            //return conversation
+            return conversation;
+        }
+        /*public Conversation BindStackEmailToConversation(Email email)
+        {
+            //Lakukan proses convert type Email ke type StackEmail
+            List<EmailStack> emailStacks = new List<EmailStack>();
+            EmailStack emailStack = new EmailStack();
 
+            emailStack.FromStack = email.From;
+            emailStack.ToStack = email.To;
+            emailStack.SubjectStack = email.Subject;
+            emailStack.HtmlAsBodyStack = email.HtmlAsBody;
+            emailStack.BodyStack = email.Body;
+            emailStack.MailDateTimeStack = email.MailDateTime;
+            emailStack.MsgIDStack = email.MsgID;
+            emailStack.MsgThreadIDStack = email.MsgThreadID;
+            emailStack.MailDateReStack = email.MailDateRe;
+
+            emailStacks.Add(emailStack);
+            return emailStack;
+        }*/
+        public EmailStack BindStackEmailToConversation(Email email)
+        {
+            EmailStack emailStack = new EmailStack();
+            emailStack.ToStack = email.To;
+            emailStack.FromStack = email.From;
+            emailStack.BodyStack = email.Body;
+            emailStack.SubjectStack = email.Subject;
+            emailStack.MailDateReStack = email.MailDateRe;
+            emailStack.MailDateTimeStack = email.MailDateTime;
+            emailStack.HtmlAsBodyStack = email.HtmlAsBody;
+            emailStack.MsgIDStack = email.MsgID;
+            emailStack.MsgThreadIDStack = email.MsgThreadID;
+            return emailStack;
+        }
+        public async Task<bool> GetConversationFromEmail(CancellationToken cancellationToken = default)
+        {
+            List<EmailStack> listStack = new List<EmailStack>();
+            foreach (EmailStack emailStack in listStack) 
+            {
+                if (emailStack.IsProcessed == false)
+                {
+                    EmailStackSpecification specification = new EmailStackSpecification();
+                    listStack = await _conversationUnitOfWork.emailStack.GetList(specification, cancellationToken);
+                    var stackinfo = new EmailStack
+                    {
+                        Id = emailStack.Id,
+                        IsProcessed = emailStack.IsProcessed,
+                        FromStack = emailStack.FromStack,
+                        ToStack = emailStack.ToStack,
+                        SubjectStack = emailStack.SubjectStack,
+                        HtmlAsBodyStack = emailStack.HtmlAsBodyStack,
+                        BodyStack = emailStack.BodyStack,
+                        MailDateTimeStack = emailStack.MailDateTimeStack,
+                        MsgIDStack = emailStack.MsgIDStack,
+                        MsgThreadIDStack = emailStack.MsgThreadIDStack,
+                        MailDateReStack = emailStack.MailDateReStack
+                    };
+                    listStack.Add(stackinfo);
+                }
+            }
+            Conversation conversation = new Conversation();
+            List<Conversation> conversations = new List<Conversation>();
+            foreach (EmailStack stackinfo in listStack)
+            {
+                conversation.CreatedBy = stackinfo.ToStack;
+                conversation.Subject = stackinfo.SubjectStack;
+                conversation.Body = stackinfo.BodyStack;
+                conversation.DateTime = stackinfo.MailDateTimeStack;
+                conversation.ToEmail = stackinfo.FromStack;     
+            }
+            conversations.Add(conversation);
+            await _conversationUnitOfWork.Conversation.Insert(conversation, cancellationToken);
+            await _conversationUnitOfWork.SaveChangesAsync(cancellationToken);
+            return true;
+        }
+        public async Task<IReadOnlyList<Conversation>> GetConversations(Specification<Conversation> filter)
+        {
+            var list = new List<Conversation>();
+            var convert =  await _conversationUnitOfWork.Conversation.GetList(filter);
+            return convert;
+        }
 
     }
 }
+
