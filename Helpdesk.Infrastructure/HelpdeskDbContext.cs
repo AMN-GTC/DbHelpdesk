@@ -19,6 +19,7 @@ namespace Helpdesk.Infrastructure
             public DbSet<Status> StatusSet { get; set; }
             public DbSet<VwExcelReportDetail> VwExcelReportDetails { get; set; }
             public DbSet<Conversation> ConversationSet { get; set; }
+            public DbSet<EmailStack> EmailStack { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
             {
@@ -57,8 +58,8 @@ namespace Helpdesk.Infrastructure
             modelBuilder.ApplyConfiguration<Project>(new ProjectConfiguration());
             modelBuilder.ApplyConfiguration<Status>(new StatusConfiguration());
             modelBuilder.ApplyConfiguration<VwExcelReportDetail>(new VwExcelReportDetailConfiguration());
-
             modelBuilder.ApplyConfiguration<Conversation>(new ConversationConfiguration());
+            modelBuilder.ApplyConfiguration<EmailStack>(new EmailStackConfiguration());
         }
     }
 }
