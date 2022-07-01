@@ -10,12 +10,17 @@ namespace Helpdesk.Core.Specifications
 {
     public class ConversationSpecification : Specification<Conversation>
     {
+        public ConversationSpecification()
+        {
+
+        }
+
         public Nullable<int> Idequal { get; set; }
         public Specification<Conversation> Build()
         {
             if (Idequal.HasValue)
             {
-                Query.Where(f => f.Id == Idequal.Value);
+                Query.Where(f => f.TicketId == Idequal.Value);
             }
             return this;
         }
