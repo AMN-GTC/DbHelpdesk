@@ -21,6 +21,8 @@ namespace Helpdesk.Core
         IStatusRepositories Status { get; }
         IVwExcelReportDetailRepository ExcelReportDetail { get; }
         IConversationRepositories Conversation { get; }
+        IEmailStackRepository emailStack { get; }
+        IEmailRepository email { get; }
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 
     }
