@@ -3,7 +3,6 @@ using Helpdesk.Core.Entities;
 using Helpdesk.Core.Services;
 using Helpdesk.Core.Specifications;
 using Helpdesk.DTO;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading;
@@ -23,14 +22,6 @@ namespace Helpdesk.Controllers
             _conversationService = conversationService;
             _mapper = mapper;
         }
-        [HttpGet("{id}")]
-        public async Task<ActionResult<ConversationDTO>> Get(int id, CancellationToken cancellationToken = default)
-        {
-
-            Conversation mail = await _conversationService.GetObject(id, cancellationToken);
-            ConversationDTO conversationDTO = _mapper.Map<ConversationDTO>(mail);
-            return Ok(conversationDTO);
-        }
         [HttpGet]
         public async Task<ActionResult<Conversation>> Get(CancellationToken cancellationToken = default)
         {
@@ -39,12 +30,20 @@ namespace Helpdesk.Controllers
             List<ConversationDTO> listdto = _mapper.Map<List<Conversation>, List<ConversationDTO>>(listconversation);
             return Ok(listdto);
         }
+        /*[HttpGet("{id}")]
+        public async Task<ActionResult<ConversationDTO>> Get(int id, CancellationToken cancellationToken = default)
+        {
+            Conversation objek = await _conversationService.GetObject(id, cancellationToken);
+            ConversationDTO conversationDTO = _mapper.Map<ConversationDTO>(objek);
+            return Ok(conversationDTO);
+        }*/
+
         [HttpPost("send")]
-        public async Task<ActionResult<ConversationDTO>> Insert([FromBody] ConversationDTO model, CancellationToken cancellationToken = default)
+        public async Task<ActionResult<ConversationDTO>> Send([FromBody] ConversationDTO model, CancellationToken cancellationToken = default)
         {
 
             Conversation conversation = _mapper.Map<ConversationDTO, Conversation>(model);
-            await _conversationService.SendEmailAsync(conversation);
+            //await _conversationService.SendEmailAsync(conversation);
             if (await _conversationService.Insert(conversation, cancellationToken) == null)
             {
                 Dictionary<string, List<string>> errors = _conversationService.GetError();
@@ -61,6 +60,7 @@ namespace Helpdesk.Controllers
 
             return Ok();
         }
+
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete([FromRoute] int id, CancellationToken cancellationToken = default)
         {
@@ -79,6 +79,38 @@ namespace Helpdesk.Controllers
             }
             return Ok("Anjay ke hapus euy");
         }
+
+        [HttpGet("Get Conversation")]
+        public async Task<IEnumerable<Conversation>> Getting(CancellationToken cancellationToken)
+        {
+            //Convert filter dari parameter ke bentuk ConversationFilter
+            ConversationSpecification specification = new ConversationSpecification();
+            List<Conversation> listconversation = await _conversationService.GetConversations(specification.Build(), cancellationToken);
+            List<Conversation> list = _mapper.Map<List<Conversation>>(listconversation);
+            //Return data list.
+            return list;
+        }
+
+        [HttpPost("send dari faris")]
+        public async Task<ActionResult> Insert([FromBody] ConversationDTO dto, CancellationToken cancellationToken = default)
+        {
+            //Convert DTO menjadi Entity
+            Conversation conversation = _mapper.Map<ConversationDTO, Conversation>(dto);
+            //Panggil method yang ada di IConversationService.SendConversation(Conversation model, CancellationToken cancellationToken).
+            await _conversationService.SendConversation(conversation);
+            return Ok();
+        }
+        [HttpGet("{ticketId}")]
+        public async Task<IEnumerable<Conversation>> Getttings(int ticketId ,CancellationToken cancellationToken = default)
+        {
+            //Convert filter dari parameter ke bentuk ConversationFilter
+            ConversationSpecification specification = new ConversationSpecification();
+            List<Conversation> listconversation = await _conversationService.GetConversationTicketId(ticketId, cancellationToken);
+            List<Conversation> list = _mapper.Map<List<Conversation>>(listconversation);
+            //Return data list.
+            return list;
+        }
+
 
 
     }
