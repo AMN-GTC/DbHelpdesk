@@ -1,6 +1,8 @@
 using Helpdesk.Core;
+using Helpdesk.Core.Common.Mailer;
 using Helpdesk.Core.Services;
 using Helpdesk.Infrastructure;
+using Helpdesk.Infrastructure.Common.Mailer;
 using Helpdesk.Infrastructure.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -32,11 +34,25 @@ namespace Helpdesk
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddAutoMapper(typeof(Helpdesk.MappingProfile));
+            services.Configure<MailConfig>(Configuration.GetSection(MailConfig.EmailConfiguration));
             services.AddDbContext<HelpdeskDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("HelpdeskAMN")));
             services.AddTransient<IHelpdeskUnitOfWork, HelpdeskUnitOfWork>();
+            services.AddTransient<IVwLastWeekTicketService, VwLastWeekTicketServ>();
+            services.AddTransient<IVwQuotaServ, VwQuotaServ>();
             services.AddTransient<IVwTicketPICServ, VwTicketPICServ>();
             services.AddTransient<IVwTicketSummaryServ, VwTicketSummaryServ>();
             services.AddTransient<IVwActiveTicketSummaryServ, VwActiveTicketSummaryServ>();
+            services.AddTransient<ITicketService, TicketService>();
+            services.AddTransient<ITimerService, TimerService>();
+            services.AddTransient<IProjectService, ProjectService>();
+            services.AddTransient<IUserService, UserService>();
+            services.AddTransient<IStatusService, StatusService>();
+            services.AddTransient<IExcelReportService, ExcelReportService>();
+            services.AddTransient<IConversationService, ConversationService>();
+            services.AddTransient<IEmailStackService, EmailStackService>();
+            services.AddTransient<IMailerService, MailerService>();
+            services.AddTransient<IEmailServices, EmailService>();
+
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
