@@ -14,12 +14,12 @@ namespace Helpdesk.Infrastructure.Repositories
 {
     public class ConversationRepositories : IConversationRepositories
     {
-        private readonly DbContext _dbContext;
+        private readonly DbContext _conversationContext;
         protected readonly DbSet<Conversation> _dbSetConversation;
-        public ConversationRepositories(DbContext context)
+        public ConversationRepositories(DbContext conversationContext)
         {
-            _dbContext = context;
-            _dbSetConversation = _dbContext.Set<Conversation>();
+            _conversationContext = conversationContext;
+            _dbSetConversation = _conversationContext.Set<Conversation>();
         }
 
         public Task<List<Conversation>> GetList(Specification<Conversation> specification, CancellationToken cancelationToken = default)
@@ -46,11 +46,13 @@ namespace Helpdesk.Infrastructure.Repositories
             {
                 throw new Exception($"email dengan id = {id} tidak ditemukan");
             }
-            _dbContext.Remove(existing);
+            _conversationContext.Remove(existing);
         }
         public Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
-            return _dbContext.SaveChangesAsync(cancellationToken);
+            return _conversationContext.SaveChangesAsync(cancellationToken);
         }
+
+       
     }
 }
