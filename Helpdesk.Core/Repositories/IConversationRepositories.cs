@@ -16,5 +16,8 @@ namespace Helpdesk.Core.Repositories
         Task<Conversation> GetObject(int id, CancellationToken cancelationToken = default);
         Task<List<Conversation>> GetList(Specification<Conversation> specification, CancellationToken cancelationToken = default);
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
+        
+
+
     }
 }
