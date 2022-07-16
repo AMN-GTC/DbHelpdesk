@@ -13,8 +13,11 @@
   <ItemGroup>
     <PackageReference Include="Ardalis.Specification" Version="5.2.0" />
     <PackageReference Include="Ardalis.Specification.EntityFrameworkCore" Version="5.2.0" />
-    <PackageReference Include="EPPlus" Version="5.8.10" />
+    <PackageReference Include="EPPlus" Version="4.5.3" />
+    <PackageReference Include="JwtUtils" Version="0.3.8" />
+    <PackageReference Include="MailKit" Version="3.3.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.17" />
+    <PackageReference Include="MimeKit" Version="3.3.0" />
   </ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\Helpdesk.Core\Helpdesk.Core.csproj" />

@@ -1,7 +1,7 @@
 ﻿using Ardalis.Specification;
+using Helpdesk.Core;
 using Helpdesk.Core.Entities;
 using Helpdesk.Core.Services;
-using Helpdesk.Infrastructure;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -10,12 +10,11 @@ namespace Helpdesk.Infrastructure.Services
 {
     public class StatusService : Service<Status>, IStatusService
     {
-        protected HelpdeskUnitOfWork _helpdeskUnitOfWork;
-        public StatusService(HelpdeskUnitOfWork helpdeskUnitOfWork)
+        protected IHelpdeskUnitOfWork _helpdeskUnitOfWork;
+        public StatusService(IHelpdeskUnitOfWork helpdeskUnitOfWork)
         {
             _helpdeskUnitOfWork = helpdeskUnitOfWork;
         }
-
 
         public Task<bool> Delete(int id, CancellationToken cancellationToken = default)
         {

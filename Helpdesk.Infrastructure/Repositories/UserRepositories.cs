@@ -16,11 +16,6 @@ namespace Helpdesk.Infrastructure.Repositories
         protected readonly DbContext _dbContext;
         protected readonly DbSet<User> _dbsetuser;
 
-        public UserRepositories(DbSet<User> dbsetuser)
-        {
-            _dbsetuser = dbsetuser;
-        }
-
         public UserRepositories(DbContext context)
         {
             _dbContext = context;

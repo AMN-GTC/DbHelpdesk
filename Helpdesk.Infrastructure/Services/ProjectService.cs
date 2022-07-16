@@ -1,8 +1,8 @@
 ﻿using Ardalis.Specification;
+using Helpdesk.Core;
 using Helpdesk.Core.Entities;
 using Helpdesk.Core.Services;
 using Helpdesk.Core.Specifications;
-using Helpdesk.Infrastructure;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -11,8 +11,8 @@ namespace Helpdesk.Infrastructure.Services
 {
     public class ProjectService : Service<Project>, IProjectService
     {
-        protected HelpdeskUnitOfWork _helpdeskUnitOfWork;
-        public ProjectService(HelpdeskUnitOfWork helpdeskUnitOfWork)
+        protected IHelpdeskUnitOfWork _helpdeskUnitOfWork;
+        public ProjectService(IHelpdeskUnitOfWork helpdeskUnitOfWork)
         {
             _helpdeskUnitOfWork = helpdeskUnitOfWork;
         }
@@ -38,7 +38,7 @@ namespace Helpdesk.Infrastructure.Services
 
             }
             return projectList;
-            //return _helpdeskUnitOfWork.Project.GetList(specification, cancellationToken);
+            //return _ticketUnitOfWork.Project.GetList(specification, cancellationToken);
         }
 
         public Task<Project> GetObject(int id, CancellationToken cancellationToken = default)

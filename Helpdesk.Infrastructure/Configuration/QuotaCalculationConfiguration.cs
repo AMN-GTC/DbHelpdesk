@@ -4,22 +4,19 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Helpdesk.Infrastructure.Configuration
 {
-    public class ProjectConfiguration : IEntityTypeConfiguration<Project>
+    public class QuotaCalculationConfiguration : IEntityTypeConfiguration<QuotaCalculation>
     {
-        public void Configure(EntityTypeBuilder<Project> builder)
+
+        public void Configure(EntityTypeBuilder<QuotaCalculation> builder)
         {
             builder.HasKey(t => t.Id);
             builder.Property(t => t.Id)
                 .ValueGeneratedOnAdd();
 
-            builder.HasMany(t => t.Tickets)
-                .WithOne(x => x.Project)
+            builder.HasOne(t => t.Project)
+                 .WithMany()
                 .HasForeignKey(x => x.ProjectId);
             //.OnDelete(DeleteBehavior.Restrict);
-
-            builder.HasMany(q => q.Quota)
-                .WithOne(x => x.Project)
-                .HasForeignKey(q => q.ProjectId);
         }
     }
 }

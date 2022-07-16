@@ -1,4 +1,5 @@
 ﻿using Ardalis.Specification;
+using Helpdesk.Core;
 using Helpdesk.Core.Entities;
 using Helpdesk.Core.Services;
 using System.Collections.Generic;
@@ -9,13 +10,15 @@ namespace Helpdesk.Infrastructure.Services
 {
     public class UserService : Service<User>, IUserService
     {
-        protected HelpdeskUnitOfWork _helpdeskUnitOfWork;
-        public UserService(HelpdeskUnitOfWork helpdeskUnitOfWork)
+        protected IHelpdeskUnitOfWork _helpdeskUnitOfWork;
+
+        public UserService(IHelpdeskUnitOfWork helpdeskUnitOfWork)
         {
             _helpdeskUnitOfWork = helpdeskUnitOfWork;
+
         }
 
-
+      
         public async Task<bool> Delete(int id, CancellationToken cancellationToken = default)
         {
             await _helpdeskUnitOfWork.User.Delete(id, cancellationToken);

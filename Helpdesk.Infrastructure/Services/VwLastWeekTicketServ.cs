@@ -8,18 +8,16 @@ using System.Threading.Tasks;
 
 namespace Helpdesk.Infrastructure.Services
 {
-    public class VwTicketPICServ : Service<VwTicketPIC>, IVwTicketPICServ
+    public class VwLastWeekTicketServ : Service<VwLastWeekTicket>, IVwLastWeekTicketService
     {
         protected IHelpdeskUnitOfWork _helpdeskUnitOfWork;
-        public VwTicketPICServ(IHelpdeskUnitOfWork helpdeskUnitOfWork)
+        public VwLastWeekTicketServ(IHelpdeskUnitOfWork helpdeskUnitOfWork)
         {
             _helpdeskUnitOfWork = helpdeskUnitOfWork;
         }
-
-
-        public Task<List<VwTicketPIC>> GetList(Specification<VwTicketPIC> specification, CancellationToken cancelationToken = default)
+        public Task<List<VwLastWeekTicket>> GetList(Specification<VwLastWeekTicket> specification, CancellationToken cancelationToken = default)
         {
-            return _helpdeskUnitOfWork.vwTicketPICrepo.GetList(specification, cancelationToken);
+            return _helpdeskUnitOfWork.vwLastWeekRepo.GetList(specification, cancelationToken);
         }
     }
 }

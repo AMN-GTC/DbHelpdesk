@@ -13,7 +13,7 @@ namespace Helpdesk.Infrastructure.Configuration
                 .ValueGeneratedOnAdd();
 
             builder.HasMany(s => s.Tickets)
-                .WithOne(t => t.Status)
+                .WithOne(t => t.TicketStatus)
                 .HasForeignKey(t => t.StatusId)
                 .OnDelete(DeleteBehavior.Restrict);
 

@@ -28,14 +28,9 @@ namespace Helpdesk.Infrastructure.Repositories
             return query.ToListAsync(cancellationToken);
         }
 
-        public async Task<VwExcelReportDetail> GetObject(int id, CancellationToken cancelationToken = default)
+        public async Task<VwExcelReportDetail> GetObject(int year, int month, CancellationToken cancelationToken = default)
         {
-            return await _dbsetreport.FirstOrDefaultAsync(x => x.Id == id, cancelationToken);
-        }
-
-        public async Task Insert(VwExcelReportDetail model, CancellationToken cancellationToken = default)
-        {
-            await _dbsetreport.AddAsync(model, cancellationToken);
+            return await _dbsetreport.FirstOrDefaultAsync(cancelationToken);
         }
     }
 }

@@ -173,13 +173,6 @@ namespace Helpdesk.Infrastructure.Services
             }
             return true;
         }
-        public async Task<List<Conversation>> GetConversations(Specification<Conversation> specification, CancellationToken cancellationToken)
-        {
-            //Implementasikan proses get data conversation
-            await GetConversationFromEmail(cancellationToken);
-            return await _conversationUnitOfWork.Conversation.GetList(specification, cancellationToken);
-        }
-
         public async Task<List<Conversation>> GetConversationTicketId(int ticketId, CancellationToken cancellationToken)
         {
             var spec = new ConversationSpecification();
@@ -187,6 +180,14 @@ namespace Helpdesk.Infrastructure.Services
             await GetConversationFromEmail(cancellationToken);
             return await _conversationUnitOfWork.Conversation.GetList(spec.Build(), cancellationToken);
         }
+        public async Task<List<Conversation>> GetConversations(Specification<Conversation> specification, CancellationToken cancellationToken)
+        {
+            //Implementasikan proses get data conversation
+            await GetConversationFromEmail(cancellationToken);
+            return await _conversationUnitOfWork.Conversation.GetList(specification, cancellationToken);
+        }
+
+        
     }
     
 }

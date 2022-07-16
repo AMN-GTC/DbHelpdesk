@@ -1,8 +1,8 @@
 ﻿using Ardalis.Specification;
+using Helpdesk.Core;
 using Helpdesk.Core.Entities;
 using Helpdesk.Core.Services;
 using Helpdesk.Core.Specifications;
-using Helpdesk.Infrastructure;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -11,12 +11,11 @@ namespace Helpdesk.Infrastructure.Services
 {
     public class TicketService : Service<Ticket>, ITicketService
     {
-        protected HelpdeskUnitOfWork _helpdeskUnitOfWork;
-        public TicketService(HelpdeskUnitOfWork helpdeskUnitOfWork)
+        protected IHelpdeskUnitOfWork _helpdeskUnitOfWork;
+        public TicketService(IHelpdeskUnitOfWork helpdeskUnitOfWork)
         {
             _helpdeskUnitOfWork = helpdeskUnitOfWork;
         }
-
         public async Task<Ticket> Insert(Ticket ticket, CancellationToken cancellationToken = default)
         {
             if (ValidateInsert(ticket) == false)
@@ -62,7 +61,7 @@ namespace Helpdesk.Infrastructure.Services
                 item.Assign_to_username = user.Name;
 
                 var status = await _helpdeskUnitOfWork.Status.GetObject(item.StatusId, cancellationToken);
-                item.Status = status;
+                item.TicketStatus = status;
                 item.Ticket_status = status.Name;
 
                 var spec = new TimerSpesification()

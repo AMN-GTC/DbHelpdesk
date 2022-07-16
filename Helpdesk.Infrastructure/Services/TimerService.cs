@@ -1,4 +1,5 @@
 ﻿using Ardalis.Specification;
+using Helpdesk.Core;
 using Helpdesk.Core.Entities;
 using Helpdesk.Core.Services;
 using Helpdesk.Core.Specifications;
@@ -11,12 +12,11 @@ namespace Helpdesk.Infrastructure.Services
 {
     public class TimerService : Service<TimerEntity>, ITimerService
     {
-        protected HelpdeskUnitOfWork _helpdeskUnitOfWork;
-        public TimerService(HelpdeskUnitOfWork helpdeskUnitOfWork)
+        protected IHelpdeskUnitOfWork _helpdeskUnitOfWork;
+        public TimerService(IHelpdeskUnitOfWork helpdeskUnitOfWork)
         {
             _helpdeskUnitOfWork = helpdeskUnitOfWork;
         }
-
 
         public async Task<List<TimerEntity>> GetList(Specification<TimerEntity> specification, CancellationToken cancellationtoken)
         {

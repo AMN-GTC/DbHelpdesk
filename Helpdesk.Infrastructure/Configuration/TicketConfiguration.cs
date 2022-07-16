@@ -12,7 +12,7 @@ namespace Helpdesk.Infrastructure.Configuration
             builder.Property(t => t.Id)
                 .ValueGeneratedOnAdd();
 
-            builder.HasMany(x => x.Timers)
+            builder.HasMany(x => x.Timerentity)
                 .WithOne(x => x.Ticket)
                 .HasForeignKey(x => x.TicketId)
                 .OnDelete(DeleteBehavior.Restrict);
@@ -25,14 +25,14 @@ namespace Helpdesk.Infrastructure.Configuration
             builder.HasOne(x => x.Project)
                 .WithMany()
                 .HasForeignKey(x => x.ProjectId)
-            .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne(x => x.User)
                 .WithMany(x => x.Tickets)
                 .HasForeignKey(x => x.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasOne(s => s.Status)
+            builder.HasOne(s => s.TicketStatus)
                 .WithMany(s => s.Tickets)
                 .HasForeignKey(s => s.StatusId)
                 .OnDelete(DeleteBehavior.Restrict);

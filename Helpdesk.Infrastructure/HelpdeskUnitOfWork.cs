@@ -14,16 +14,20 @@ namespace Helpdesk.Infrastructure
         {
             _dbContext = dbContext;
         }
-        private IVwTicketSummaryRepo _vwTicketSummary;
-        private IVwTicketPICRepo _vwPIC;
-        private IVwActiveTicketSummaryRepo _vwats;
         private ITicketRepositories _tickets;
         private ITimerRepositories _timer;
         private IProjectRepositories _project;
         private IUserRepositories _user;
         private IStatusRepositories _status;
         private IVwExcelReportDetailRepository _excelReportDetailRepository;
+        private IVwExcelReportTicketDetailAllRepositories _excelReportTicketDetailAll;
+        private IQuotaCalculationRepositories _quotaCalculation;
+        private IVwExcelMonthlyRepositories _excelMonthly;
+        private IVwTicketSummaryRepo _vwTicketSummary;
+        private IVwTicketPICRepo _vwPIC;
+        private IVwActiveTicketSummaryRepo _vwats;
         private IVwLastWeekTicketRepo _vwLast;
+        private IVwQuotaRepo _vwQuota;
         private IEmailRepository _emailRepository;
         private IEmailStackRepository _emailStackRepository;
         private IConversationRepositories _conversations;
@@ -47,6 +51,15 @@ namespace Helpdesk.Infrastructure
         public IVwActiveTicketSummaryRepo vwActiveTicketSummaryRepo => _vwats = _vwats ?? new VwActiveTicketSumarryRepo(_dbContext);
 
         public IVwLastWeekTicketRepo vwLastWeekRepo => _vwLast = _vwLast ?? new VwLastWeekTicketRepo(_dbContext);
+
+        public IVwQuotaRepo vwQuotaRepo => _vwQuota = _vwQuota ?? new VwQuotaRepo(_dbContext);
+        public IVwExcelReportDetailRepository VwExcelReportDetail => _excelReportDetailRepository = _excelReportDetailRepository ?? new VwExcelReportDetailRepository(_dbContext);
+
+        public IVwExcelReportTicketDetailAllRepositories VwExcelReportTicketDetailAll => _excelReportTicketDetailAll = _excelReportTicketDetailAll ?? new VwExcelReportTicketDetailAllRepositories(_dbContext);
+
+        public IQuotaCalculationRepositories Quota => _quotaCalculation = _quotaCalculation ?? new QuotaCalculationRepositories(_dbContext);
+
+        public IVwExcelMonthlyRepositories VwExcelMonthly => _excelMonthly = _excelMonthly ?? new VwExcelMonthlyRepositories(_dbContext);
         public IConversationRepositories Conversation => _conversations = _conversations ?? new ConversationRepositories(_dbContext);
         public IEmailRepository email => _emailRepository = _emailRepository ?? new EmailRepository(_dbContext);
 
