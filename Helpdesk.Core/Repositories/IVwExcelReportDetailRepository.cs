@@ -8,8 +8,7 @@ namespace Helpdesk.Core.Repositories
 {
     public interface IVwExcelReportDetailRepository
     {
-        Task Insert(VwExcelReportDetail model, CancellationToken cancellationToken = default);
-        Task<VwExcelReportDetail> GetObject(int id, CancellationToken cancelationToken = default);
+        Task<VwExcelReportDetail> GetObject(int year, int month, CancellationToken cancelationToken = default);
         Task<List<VwExcelReportDetail>> GetList(Specification<VwExcelReportDetail> specification, CancellationToken cancellationToken = default);
     }
 }
