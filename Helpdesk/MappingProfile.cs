@@ -1,4 +1,4 @@
-using AutoMapper;
+﻿using AutoMapper;
 using Helpdesk.Core.Entities;
 using Helpdesk.DTO;
 
@@ -8,6 +8,7 @@ namespace Helpdesk
     {
         public MappingProfile()
         {
+            base.CreateMap<Conversation, ConversationDTO>().ReverseMap();
             base.CreateMap<EmailStack, EmailStackDTO>().ReverseMap();
             base.CreateMap<VwQuota, VwQuotaDTO>().ReverseMap();
             base.CreateMap<VwLastWeekTicket, VwLastWeekTicketDTO>().ReverseMap();
@@ -16,7 +17,6 @@ namespace Helpdesk
             base.CreateMap<VwActiveTicketSummary, VwActiveTicketSummaryDTO>().ReverseMap();
             base.CreateMap<User, UserDTO>().ReverseMap();
             base.CreateMap<Status, StatusDTO>().ReverseMap();
-            base.CreateMap<Conversation, ConversationDTO>().ReverseMap();
 
             base.CreateMap<Ticket, TicketDTO>()
                 .ForMember(a => a.Assign_to_username, opt => opt.MapFrom(n => n.User.Name))

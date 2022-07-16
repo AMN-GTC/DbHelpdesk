@@ -4,6 +4,7 @@ using Helpdesk.Core.Services;
 using Helpdesk.Infrastructure;
 using Helpdesk.Infrastructure.Common.Mailer;
 using Helpdesk.Infrastructure.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -13,10 +14,12 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Helpdesk
@@ -33,6 +36,9 @@ namespace Helpdesk
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+            /*services.AddSingleton<IJWTManagerRepository, JWTManagerRepository>();*/
+
             services.AddAutoMapper(typeof(Helpdesk.MappingProfile));
             services.Configure<MailConfig>(Configuration.GetSection(MailConfig.EmailConfiguration));
             services.AddDbContext<HelpdeskDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("HelpdeskAMN")));
@@ -52,7 +58,6 @@ namespace Helpdesk
             services.AddTransient<IEmailStackService, EmailStackService>();
             services.AddTransient<IMailerService, MailerService>();
             services.AddTransient<IEmailServices, EmailService>();
-
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -74,6 +79,8 @@ namespace Helpdesk
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 
