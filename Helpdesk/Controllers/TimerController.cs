@@ -57,6 +57,15 @@ namespace Helpdesk.Controllers
             return Ok(timerDTO);
         }
 
+        [HttpGet("ListTimer")]
+        public async Task<ActionResult<TimerDTO>> Get(CancellationToken cancellationToken = default)
+        {
+
+            TimerSpesification specification = new TimerSpesification();
+            List<TimerEntity> listtimer = await _timerService.GetList(specification.Build(), cancellationToken);
+            List<TimerDTO> listdto = _mapper.Map<List<TimerEntity>, List<TimerDTO>>(listtimer);
+            return Ok(listdto);
+        }
         [HttpGet]
         public async Task<ActionResult<TimerDTO>> Get([FromQuery] Dictionary<string, string> filter, CancellationToken cancellationToken = default)
         {

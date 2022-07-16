@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Helpdesk.Core.Entities;
 using Helpdesk.Core.Services;
-using Helpdesk.Core.Specifications.Filters;
+using Helpdesk.Core.Specifications;
 using Helpdesk.DTO;
 using Helpdesk.Infrastructure;
 using Microsoft.AspNetCore.Http;

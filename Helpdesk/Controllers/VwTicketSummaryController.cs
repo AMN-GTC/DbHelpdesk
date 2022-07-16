@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Helpdesk.Core.Entities;
 using Helpdesk.Core.Services;
-using Helpdesk.Core.Specifications.Filters;
+using Helpdesk.Core.Specifications;
 using Helpdesk.DTO;
 using Helpdesk.Infrastructure;
 using Microsoft.AspNetCore.Http;
@@ -31,7 +31,7 @@ namespace Helpdesk.Controllers
         [HttpGet]
         public async Task<ActionResult<VwTicketSummaryDTO>> Get(CancellationToken cancellation = default)
         {
-            IEnumerable<VwTicketSummary> vws = _helpdeskContext.VwTicketSummaries.ToList();
+            IEnumerable<VwTicketSummary> vws = _helpdeskContext.VwSumChartTicketSumm.ToList();
             VwTicketSummarySpec spec = new VwTicketSummarySpec();
             List<VwTicketSummary> listVw = await _IVwTicketSummaryService.GetList(spec.Build(), cancellation);
             List<VwTicketSummaryDTO> listVwDTO = _mapper.Map<List<VwTicketSummary>, List<VwTicketSummaryDTO>>(listVw);

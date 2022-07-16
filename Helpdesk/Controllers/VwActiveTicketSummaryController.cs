@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Helpdesk.Core.Entities;
-using Helpdesk.Core.Specifications.Filters;
+using Helpdesk.Core.Specifications;
 using Helpdesk.DTO;
 using Helpdesk.Infrastructure;
 using Microsoft.AspNetCore.Http;
@@ -29,7 +29,7 @@ namespace Helpdesk.Controllers
         [HttpGet]
         public async Task<ActionResult<VwActiveTicketSummaryDTO>> Get(CancellationToken cancellation = default)
         {
-            IEnumerable<VwActiveTicketSummary> vwpic = _helpdeskContext.VwActiveTicketSummaries.ToList();
+            IEnumerable<VwActiveTicketSummary> vwpic = _helpdeskContext.VwSumChartActiveTicketSummaries.ToList();
             VwActiveTicketSummarySpec spec = new VwActiveTicketSummarySpec();
             List<VwActiveTicketSummary> listvwats = await _vwActiveTicketSummaryServ.GetList(spec.Build(), cancellation);
             List<VwActiveTicketSummaryDTO> listvwatsDTO = _mapper.Map<List<VwActiveTicketSummary>, List<VwActiveTicketSummaryDTO>>(listvwats);

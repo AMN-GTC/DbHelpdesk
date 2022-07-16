@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Helpdesk.Core.Entities;
 using Helpdesk.Core.Services;
 using Helpdesk.Core.Specifications;
 using Helpdesk.DTO;
-using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -16,12 +16,14 @@ namespace Helpdesk.Controllers
     {
         private readonly IUserService _userService;
         private readonly IMapper _mapper;
-        public UserController(IUserService userService, IMapper mapper)
+       
+        public UserController(IUserService userService, IMapper mapper )
         {
             _userService = userService;
             _mapper = mapper;
 
         }
+
         [HttpGet]
         public async Task<ActionResult<UserDTO>> Get(CancellationToken cancellationToken = default)
         {
