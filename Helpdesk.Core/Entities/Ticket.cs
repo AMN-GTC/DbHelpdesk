@@ -30,9 +30,9 @@ namespace Helpdesk.Core.Entities
         public int UserId { get; set; }
         public virtual User User { get; set; }
         public virtual Project Project { get; set; }
-        public virtual Status Status { get; set; }
+        public virtual Status TicketStatus { get; set; }
         private IList<TimerEntity> _timers = new List<TimerEntity>();
-        public IList<TimerEntity> Timers { get => _timers; set => _timers = value; }
+        public IList<TimerEntity> Timerentity { get => _timers; set => _timers = value; }
 
     }
     public enum Ticket_source
@@ -42,5 +42,4 @@ namespace Helpdesk.Core.Entities
         Helpdesk_Portal,
 
     }
-
 }

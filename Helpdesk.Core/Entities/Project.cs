@@ -1,7 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using Helpdesk.Core.Common.Mailer;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+
 
 namespace Helpdesk.Core.Entities
 {
+    [Table("tbl_project")]
     public class Project
     {
         public int Id { get; set; }
@@ -13,6 +17,37 @@ namespace Helpdesk.Core.Entities
         public string Password { get; set; }
         private IList<Ticket> _tickets = new List<Ticket>();
         public IList<Ticket> Tickets { get => _tickets; set => _tickets = value; }
+        private IList<QuotaCalculation> _quotas = new List<QuotaCalculation>();
+        public IList<QuotaCalculation> Quota { get => _quotas; set => _quotas = value; }
+
+
+        public MailConfig ConvertToMailConfig()
+        {
+
+
+            List<MailConfig> mailConfigs = new List<MailConfig>();
+            /*            foreach(Project project1 in project)
+                        {
+
+                        }*/
+            MailConfig mailConfig = new MailConfig();
+            /*foreach (var project in List<Project>)
+            {
+                var mailconfig = new MailConfig
+                {
+                    SmtpUsername = project.Sender_mail,
+                    SmtpPassword = project.Password
+                };
+            }*/
+            mailConfig.ProjectId = Id;
+            mailConfig.ImapUsername = Sender_mail;
+            mailConfig.ImapPassword = Password;
+            mailConfig.SmtpUsername = Sender_mail;
+            mailConfig.SmtpPassword = Password;
+
+            mailConfigs.Add(mailConfig);
+            return mailConfig;
+        }
 
     }
 }

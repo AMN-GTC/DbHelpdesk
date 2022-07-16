@@ -10,16 +10,21 @@ namespace Helpdesk.Core
 {
         public interface IHelpdeskUnitOfWork
         {
-        IVwTicketSummaryRepo vwTicketSummaryrepo { get; }
-        IVwTicketPICRepo vwTicketPICrepo { get; }
-        IVwActiveTicketSummaryRepo vwActiveTicketSummaryRepo { get; }
-        IVwLastWeekTicketRepo vwLastWeekRepo { get; }
+
         ITicketRepositories Ticket { get; }
         ITimerRepositories Timer { get; }
         IProjectRepositories Project { get; }
         IUserRepositories User { get; }
         IStatusRepositories Status { get; }
-        IVwExcelReportDetailRepository ExcelReportDetail { get; }
+        IQuotaCalculationRepositories Quota { get; }
+        IVwExcelReportDetailRepository VwExcelReportDetail { get; }
+        IVwExcelReportTicketDetailAllRepositories VwExcelReportTicketDetailAll { get; }
+        IVwExcelMonthlyRepositories VwExcelMonthly { get; }
+        IVwQuotaRepo vwQuotaRepo { get; }
+        IVwTicketSummaryRepo vwTicketSummaryrepo { get; }
+        IVwTicketPICRepo vwTicketPICrepo { get; }
+        IVwActiveTicketSummaryRepo vwActiveTicketSummaryRepo { get; }
+        IVwLastWeekTicketRepo vwLastWeekRepo { get; }
         IConversationRepositories Conversation { get; }
         IEmailStackRepository emailStack { get; }
         IEmailRepository email { get; }

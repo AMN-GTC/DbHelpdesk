@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\IPB\\PKL\\APLIKASI HELPDESK-AMN\\DB\\FinalDBmergeHelpdesk\\Helpdesk.Core\\Helpdesk.Core.csproj": {}
+    "D:\\IPB\\PKL\\APLIKASI HELPDESK-AMN\\FINAL\\FinalDBmergeHelpdesk\\Helpdesk.Core\\Helpdesk.Core.csproj": {}
   },
   "projects": {
-    "D:\\IPB\\PKL\\APLIKASI HELPDESK-AMN\\DB\\FinalDBmergeHelpdesk\\Helpdesk.Core\\Helpdesk.Core.csproj": {
+    "D:\\IPB\\PKL\\APLIKASI HELPDESK-AMN\\FINAL\\FinalDBmergeHelpdesk\\Helpdesk.Core\\Helpdesk.Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\IPB\\PKL\\APLIKASI HELPDESK-AMN\\DB\\FinalDBmergeHelpdesk\\Helpdesk.Core\\Helpdesk.Core.csproj",
+        "projectUniqueName": "D:\\IPB\\PKL\\APLIKASI HELPDESK-AMN\\FINAL\\FinalDBmergeHelpdesk\\Helpdesk.Core\\Helpdesk.Core.csproj",
         "projectName": "Helpdesk.Core",
-        "projectPath": "D:\\IPB\\PKL\\APLIKASI HELPDESK-AMN\\DB\\FinalDBmergeHelpdesk\\Helpdesk.Core\\Helpdesk.Core.csproj",
+        "projectPath": "D:\\IPB\\PKL\\APLIKASI HELPDESK-AMN\\FINAL\\FinalDBmergeHelpdesk\\Helpdesk.Core\\Helpdesk.Core.csproj",
         "packagesPath": "C:\\Users\\fakhr\\.nuget\\packages\\",
-        "outputPath": "D:\\IPB\\PKL\\APLIKASI HELPDESK-AMN\\DB\\FinalDBmergeHelpdesk\\Helpdesk.Core\\obj\\",
+        "outputPath": "D:\\IPB\\PKL\\APLIKASI HELPDESK-AMN\\FINAL\\FinalDBmergeHelpdesk\\Helpdesk.Core\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -48,9 +48,25 @@
               "target": "Package",
               "version": "[5.2.0, )"
             },
+            "AutoMapper": {
+              "target": "Package",
+              "version": "[11.0.1, )"
+            },
             "EPPlus": {
               "target": "Package",
-              "version": "[5.8.10, )"
+              "version": "[4.5.3, )"
+            },
+            "MailKit": {
+              "target": "Package",
+              "version": "[3.3.0, )"
+            },
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[5.0.17, )"
+            },
+            "MimeKit": {
+              "target": "Package",
+              "version": "[3.3.0, )"
             }
           },
           "imports": [
@@ -68,7 +84,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.300\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.302\\RuntimeIdentifierGraph.json"
         }
       }
     }

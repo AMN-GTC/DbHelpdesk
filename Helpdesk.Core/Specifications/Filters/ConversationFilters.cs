@@ -1,6 +1,8 @@
-using API_DB_Ticket.Entity;
+
 using Ardalis.Specification;
 using System.Collections.Generic;
+using Helpdesk.Core.Entities;
+using Helpdesk.Core.Specifications;
 
 namespace API_DB_Ticket.Specification.Filters
 {
