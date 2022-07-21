@@ -37,12 +37,18 @@ namespace Helpdesk.Infrastructure.Repositories
             await _dbsetquota.AddAsync(model, cancelationToken);
         }
 
-        public Task Update(QuotaCalculation model, int id, CancellationToken cancelationToken = default)
+        public async Task Update(QuotaCalculation model, int id, CancellationToken cancelationToken = default)
         {
-            throw new NotImplementedException();
+            QuotaCalculation existing = await _dbsetquota.FindAsync(new object[] { id }, cancelationToken);
+            if (existing == null)
+            {
+                throw new Exception($"model dengan id ={id} tidak ditemukan");
+            }
+
+            _dbContext.Entry(existing).CurrentValues.SetValues(model);
         }
 
-        Task<List<QuotaCalculation>> IQuotaCalculationRepositories.GetList(Specification<QuotaCalculation> specification, CancellationToken cancelationToken)
+        public Task<List<QuotaCalculation>> GetList(Specification<QuotaCalculation> specification, CancellationToken cancelationToken)
         {
             IQueryable<QuotaCalculation> query = _dbsetquota.AsQueryable();
             SpecificationEvaluator evaluator = new SpecificationEvaluator();
@@ -50,9 +56,14 @@ namespace Helpdesk.Infrastructure.Repositories
             return query.ToListAsync(cancelationToken);
         }
 
-        Task<QuotaCalculation> IQuotaCalculationRepositories.GetObject(int id, CancellationToken cancelationToken)
+        public async Task<QuotaCalculation> GetObject(int id, CancellationToken cancelationToken)
         {
-            throw new NotImplementedException();
+            return await _dbsetquota.FirstOrDefaultAsync(x => x.Id == id, cancelationToken);
+        }
+
+        public Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        {
+            return _dbContext.SaveChangesAsync(cancellationToken);
         }
     }
 }

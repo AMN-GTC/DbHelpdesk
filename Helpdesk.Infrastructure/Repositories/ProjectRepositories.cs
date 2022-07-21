@@ -24,7 +24,7 @@ namespace Helpdesk.Infrastructure.Repositories
         public async Task Delete(int id, CancellationToken cancelationToken = default)
         {
             Project existing = await _dbsetproject.FindAsync(new object[] { id }, cancelationToken);
-            if (existing != null)
+            if (existing == null)
             {
                 throw new Exception($"model item dengan id = {id} tidak ditemukan");
             }
