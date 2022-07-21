@@ -3,6 +3,7 @@ using Helpdesk.Core;
 using Helpdesk.Core.Entities;
 using Helpdesk.Core.Services;
 using Helpdesk.Core.Specifications;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -22,6 +23,8 @@ namespace Helpdesk.Infrastructure.Services
             {
                 return null;
             }
+            ticket.Submission_date = DateTime.Now;
+            ticket.Due_date = DateTime.Now.AddHours(24);
             await _helpdeskUnitOfWork.Ticket.Insert(ticket, cancellationToken);
             await _helpdeskUnitOfWork.SaveChangesAsync(cancellationToken);
             return ticket;
@@ -32,6 +35,11 @@ namespace Helpdesk.Infrastructure.Services
             {
                 AddError("title harus diisi");
             }
+            //if (ticket.Submission_date == DateTime.MinValue)
+            //{
+            //    ticket.Submission_date = DateTime.Now;
+            //    ticket.Due_date = ticket.Submission_date.AddHours(24);
+            //}
             return GetServiceState();
         }
         public async Task<Ticket> Update(Ticket ticket, int id, CancellationToken cancellationToken = default)
@@ -63,7 +71,7 @@ namespace Helpdesk.Infrastructure.Services
                 var status = await _helpdeskUnitOfWork.Status.GetObject(item.StatusId, cancellationToken);
                 item.TicketStatus = status;
                 item.Ticket_status = status.Name;
-
+                    
                 var spec = new TimerSpesification()
                 {
                     TicketidEqual = item.Id
@@ -73,10 +81,29 @@ namespace Helpdesk.Infrastructure.Services
             return tiketList;
         }
 
-        public Task<Ticket> GetObject(int id, CancellationToken cancellationToken = default)
+        public async Task<Ticket> GetObject(int id, CancellationToken cancellationToken = default)
         {
-            return _helpdeskUnitOfWork.Ticket.GetObject(id, cancellationToken);
+            var tiketobject = await _helpdeskUnitOfWork.Ticket.GetObject(id, cancellationToken);
+                
+                var project = await _helpdeskUnitOfWork.Project.GetObject(tiketobject.ProjectId, cancellationToken);
+                tiketobject.Application = project.Name;
+                tiketobject.Project = project;
+
+                var user = await _helpdeskUnitOfWork.User.GetObject(tiketobject.UserId, cancellationToken);
+                tiketobject.User = user;
+                tiketobject.Assign_to_username = user.Name;
+
+                var status = await _helpdeskUnitOfWork.Status.GetObject(tiketobject.StatusId, cancellationToken);
+                tiketobject.TicketStatus = status;
+                tiketobject.Ticket_status = status.Name;
+
+            return tiketobject;
         }
+           
+
+            //return _helpdeskUnitOfWork.Ticket.GetObject(id, cancellationToken);
+
+        
 
     }
 }

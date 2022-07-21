@@ -44,15 +44,14 @@ namespace Helpdesk.Infrastructure.Services
             {
                 ExcelWorksheet excelWorksheet = package.Workbook.Worksheets.Add("Monthly");
 
-                excelWorksheet.Cells[1, 1].Value = "No Ticket";
+                excelWorksheet.Cells[1, 1].Value = "Ticket Id";
                 excelWorksheet.Cells[1, 2].Value = "Project_Name";
                 excelWorksheet.Cells[1, 3].Value = "Problem_description";
                 excelWorksheet.Cells[1, 4].Value = "Reported_by";
                 excelWorksheet.Cells[1, 5].Value = "Submission_date";
-                excelWorksheet.Cells[1, 6].Value = "Finish_date";
-                excelWorksheet.Cells[1, 7].Value = "Status_Ticket";
-                excelWorksheet.Cells[1, 8].Value = "Starts";
-                excelWorksheet.Cells[1, 9].Value = "Ends";
+                excelWorksheet.Cells[1, 6].Value = "Status_Ticket";
+                excelWorksheet.Cells[1, 7].Value = "Start_time";
+                excelWorksheet.Cells[1, 8].Value = "End_time";
                 excelWorksheet.Column(1).AutoFit();
                 excelWorksheet.Column(2).AutoFit();
                 excelWorksheet.Column(3).AutoFit();
@@ -61,20 +60,19 @@ namespace Helpdesk.Infrastructure.Services
                 excelWorksheet.Column(6).AutoFit();
                 excelWorksheet.Column(7).AutoFit();
                 excelWorksheet.Column(8).AutoFit();
-                excelWorksheet.Column(9).AutoFit();
+
 
                 for (int i = 0; i < listdata.Count; i++, excelWorksheet.Column(i).Width *= 1.06)
                 {
 
-                    excelWorksheet.Cells[i + 2, 1].Value = listdata[i].Id;
+                    excelWorksheet.Cells[i + 2, 1].Value = listdata[i].TicketId;
                     excelWorksheet.Cells[i + 2, 2].Value = listdata[i].Project_Name;
                     excelWorksheet.Cells[i + 2, 3].Value = listdata[i].Problem_description;
                     excelWorksheet.Cells[i + 2, 4].Value = listdata[i].Reported_by;
                     excelWorksheet.Cells[i + 2, 5].Value = listdata[i].Submission_date;
-                    excelWorksheet.Cells[i + 2, 6].Value = listdata[i].Finish_date;
-                    excelWorksheet.Cells[i + 2, 7].Value = listdata[i].Status_Ticket;
-                    excelWorksheet.Cells[i + 2, 8].Value = listdata[i].Starts;
-                    excelWorksheet.Cells[i + 2, 9].Value = listdata[i].Ends;
+                    excelWorksheet.Cells[i + 2, 6].Value = listdata[i].Status_Ticket;
+                    excelWorksheet.Cells[i + 2, 7].Value = listdata[i].Start_time;
+                    excelWorksheet.Cells[i + 2, 8].Value = listdata[i].End_time;
                 }
 
                 ExcelWorksheet excelWorksheetyear = package.Workbook.Worksheets.Add("Yearly");
@@ -170,14 +168,14 @@ namespace Helpdesk.Infrastructure.Services
                 excelPerBulan.Cells[1, 2].Value = "Total Minute";
                 excelPerBulan.Cells[1, 3].Value = "Total Hour";
                 excelPerBulan.Cells[1, 4].Value = "Mandays";
-                excelPerBulan.Cells[1, 5].Value = "Usage";
-                excelPerBulan.Cells[1, 6].Value = "Limit";
+                //excelPerBulan.Cells[1, 5].Value = "Usage";
+                //excelPerBulan.Cells[1, 6].Value = "Limit";
                 excelPerBulan.Column(1).AutoFit();
                 excelPerBulan.Column(2).AutoFit();
                 excelPerBulan.Column(3).AutoFit();
                 excelPerBulan.Column(4).AutoFit();
-                excelPerBulan.Column(5).AutoFit();
-                excelPerBulan.Column(6).AutoFit();
+                //excelPerBulan.Column(5).AutoFit();
+                //excelPerBulan.Column(6).AutoFit();
 
                 Dictionary<int, int> listBulan = new Dictionary<int, int>();
 

@@ -1,4 +1,5 @@
 ﻿using Ardalis.Specification;
+using Helpdesk.Core;
 using Helpdesk.Core.Entities;
 using Helpdesk.Core.Services;
 using System.Collections.Generic;
@@ -7,41 +8,47 @@ using System.Threading.Tasks;
 
 namespace Helpdesk.Infrastructure.Services
 {
-    public class QuotaCalculationService : IQuotaCalculationService
+    public class QuotaCalculationService : Service<QuotaCalculation>, IQuotaCalculationService
     {
-        public Task<bool> Delete(int id, CancellationToken cancellationToken = default)
+        protected IHelpdeskUnitOfWork _helpdeskUnitOfWork;
+
+
+        public QuotaCalculationService(IHelpdeskUnitOfWork helpdeskUnitOfWork)
         {
-            throw new System.NotImplementedException();
+            _helpdeskUnitOfWork = helpdeskUnitOfWork;
         }
 
-        public Dictionary<string, List<string>> GetError()
+        public async Task<bool> Delete(int id, CancellationToken cancellationToken = default)
         {
-            throw new System.NotImplementedException();
+            await _helpdeskUnitOfWork.Quota.Delete(id, cancellationToken);
+            await _helpdeskUnitOfWork.SaveChangesAsync(cancellationToken);
+            return true;
         }
 
-        public Task<List<QuotaCalculation>> GetList(Specification<QuotaCalculation> specification, CancellationToken cancellationToken = default)
+        public async Task<List<QuotaCalculation>> GetList(Specification<QuotaCalculation> specification, CancellationToken cancellationToken = default)
         {
-            throw new System.NotImplementedException();
+
+            return await _helpdeskUnitOfWork.Quota.GetList(specification, cancellationToken);
         }
 
         public Task<QuotaCalculation> GetObject(int id, CancellationToken cancellationToken = default)
         {
-            throw new System.NotImplementedException();
+            return _helpdeskUnitOfWork.Quota.GetObject(id, cancellationToken);
         }
 
-        public bool GetServiceState()
+        public async Task<QuotaCalculation> Insert(QuotaCalculation model, CancellationToken CancellationToken = default)
         {
-            throw new System.NotImplementedException();
+            await _helpdeskUnitOfWork.Quota.Insert(model, CancellationToken);
+            await _helpdeskUnitOfWork.SaveChangesAsync();
+
+            return model;
         }
 
-        public Task<QuotaCalculation> Insert(QuotaCalculation Status, CancellationToken CancellationToken = default)
+        public async Task<QuotaCalculation> Update(QuotaCalculation model, int id, CancellationToken cancellationToken = default)
         {
-            throw new System.NotImplementedException();
-        }
-
-        public Task<QuotaCalculation> Update(QuotaCalculation Status, int id, CancellationToken cancellationToken = default)
-        {
-            throw new System.NotImplementedException();
+            await _helpdeskUnitOfWork.Quota.Update(model, id, cancellationToken);
+            await _helpdeskUnitOfWork.SaveChangesAsync(cancellationToken);
+            return model;
         }
     }
 }

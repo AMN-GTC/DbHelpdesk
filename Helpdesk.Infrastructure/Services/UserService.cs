@@ -11,14 +11,11 @@ namespace Helpdesk.Infrastructure.Services
     public class UserService : Service<User>, IUserService
     {
         protected IHelpdeskUnitOfWork _helpdeskUnitOfWork;
-
         public UserService(IHelpdeskUnitOfWork helpdeskUnitOfWork)
         {
             _helpdeskUnitOfWork = helpdeskUnitOfWork;
-
         }
 
-      
         public async Task<bool> Delete(int id, CancellationToken cancellationToken = default)
         {
             await _helpdeskUnitOfWork.User.Delete(id, cancellationToken);
