@@ -17,11 +17,14 @@ namespace Helpdesk.Controllers
             _excelReportService = excelReportService;
         }
         [HttpGet]
-        public async Task<ActionResult> Get([FromQuery] Dictionary<string, string> filter, int year, int month, CancellationToken cancellationToken = default)
+        public async Task<ActionResult> Get(int year, int month, CancellationToken cancellationToken = default)
         {
-            VwExcelReportDetailFilter filter1 = new VwExcelReportDetailFilter(filter);
+            //VwExcelReportDetailFilter filter1 = new VwExcelReportDetailFilter(filter);
             var vwExcelReportDetail = await _excelReportService.GenerateExcelReport(year, month, cancellationToken);
+            Response.Headers.Add("Access-Control-Expose-Headers", "Content-Disposition");
+
             return Ok(vwExcelReportDetail);
         }
+
     }
 }

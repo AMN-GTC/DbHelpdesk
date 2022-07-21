@@ -49,5 +49,50 @@ namespace Helpdesk.Controllers
             }
             return Ok();
         }
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> Delete([FromRoute] int id, CancellationToken cancellationToken = default)
+        {
+
+            if (await _projectService.Delete(id, cancellationToken) == false)
+            {
+                Dictionary<string, List<string>> errors = _projectService.GetError();
+                foreach (KeyValuePair<string, List<string>> error in errors)
+                {
+                    foreach (string errorvalue in error.Value)
+                    {
+                        ModelState.AddModelError(error.Key, errorvalue);
+                    }
+                }
+                return BadRequest(ModelState);
+            }
+            return Ok("berhasil dihapus");
+        }
+        [HttpPut("{id}")]
+        public async Task<ActionResult> Update([FromBody] ProjectDTO model, int id, CancellationToken cancellationToken = default)
+        {
+            Project project = _mapper.Map<ProjectDTO, Project>(model);
+            if (await _projectService.Update(project, id, cancellationToken) == null)
+            {
+                Dictionary<string, List<string>> errors = _projectService.GetError();
+                foreach (KeyValuePair<string, List<string>> error in errors)
+                {
+                    foreach (string errorvalue in error.Value)
+                    {
+                        ModelState.AddModelError(error.Key, errorvalue);
+                    }
+                }
+                return BadRequest(ModelState);
+            }
+            ProjectDTO result = _mapper.Map<Project, ProjectDTO>(project);
+            return Ok(result);
+        }
+        [HttpGet("{id}")]
+        public async Task<ActionResult<ProjectDTO>> Get(int id, CancellationToken cancellationToken = default)
+        {
+
+            Project objek = await _projectService.GetObject(id, cancellationToken);
+            ProjectDTO projectDTO = _mapper.Map<ProjectDTO>(objek);
+            return Ok(projectDTO);
+        }
     }
 }

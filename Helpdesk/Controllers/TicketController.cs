@@ -14,7 +14,7 @@ namespace Helpdesk.Controllers
     [ApiController]
     public class TicketController : ControllerBase
     {
-
+            
         private readonly ITicketService _ticketService;
         private readonly IMapper _mapper;
         public TicketController(ITicketService ticketService, IMapper mapper)
