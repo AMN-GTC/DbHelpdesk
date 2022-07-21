@@ -13,5 +13,6 @@ namespace Helpdesk.Core.Repositories
         Task Delete(int id, CancellationToken cancelationToken = default);
         Task<QuotaCalculation> GetObject(int id, CancellationToken cancelationToken = default);
         Task<List<QuotaCalculation>> GetList(Specification<QuotaCalculation> specification, CancellationToken cancelationToken = default);
+        Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
     }
 }
