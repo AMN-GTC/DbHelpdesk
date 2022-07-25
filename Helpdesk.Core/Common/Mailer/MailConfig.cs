@@ -8,17 +8,6 @@ using System.Text;
 
 namespace Helpdesk.Core.Common.Mailer
 {
-/*	public interface IMailConfig
-	{
-		string SmtpServer { get; }
-		int SmtpPort { get; }
-		string SmtpUsername { get; set; }
-		string SmtpPassword { get; set; }
-		string ImapServer { get; }
-		int ImapPort { get; }
-		string ImapUsername { get; }
-		string ImapPassword { get; }
-	}*/
 	public class MailConfig 
 	{
 		public const string EmailConfiguration = "EmailConfiguration";
@@ -28,7 +17,6 @@ namespace Helpdesk.Core.Common.Mailer
 		public int SmtpPort { get; set; }
 		public string SmtpUsername { get; set; }
 		public string SmtpUsernameTo { get; set; }
-		
 		public string SmtpPassword { get; set; }
 		public string ImapServer { get; set; }
 		public int ImapPort { get; set; }
