@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Helpdesk.Core.Repositories;
@@ -64,8 +64,7 @@ namespace Helpdesk.Infrastructure.Services
         protected IProjectService _projectService;
         protected IHelpdeskUnitOfWork _emailUnitOfWork;
         protected HelpdeskDbContext _emailDBContext;
-/*        protected DbContext _dbContext;
-        protected readonly DbSet<Project> _dbSetProject;*/
+
         public EmailStackService(IHelpdeskUnitOfWork emailUnitOfWork,IMailerService mailerService, IProjectService projectService, HelpdeskDbContext emailDBContext/*, DbContext context*/)
         {
             _emailUnitOfWork = emailUnitOfWork;
@@ -111,7 +110,7 @@ namespace Helpdesk.Infrastructure.Services
 
         public async Task<bool> GetUnreadEmail(CancellationToken cancellationToken = default)
         {
-            /* Project projectInfo = new Project();*/
+
 
             var listTicket = new List<Ticket>();
             var listStack = new List<EmailStack>();
@@ -170,221 +169,27 @@ namespace Helpdesk.Infrastructure.Services
 
                         if (projectInfo.Tickets.Count == 0)
                         {
-                            await TickertMaker(emailStack2, projectInfo, cancellationToken);
+                            await TicketMaker(emailStack2, projectInfo, cancellationToken);
                         }
                         else {
 
                             TicketSpecification ticketSpecification1 = new TicketSpecification();
                             ticketSpecification1.TitleEqual = emailStack2.SubjectStack;
+                            ticketSpecification1.ProjectIdequal = emailStack2.ProjectId;
                             var objectList = await _emailUnitOfWork.Ticket.GetList(ticketSpecification1.Build(), cancellationToken);
                             if (objectList.Count == 0)
                             {
-                                await TickertMaker(emailStack2, projectInfo, cancellationToken);
+                                await TicketMaker(emailStack2, projectInfo, cancellationToken);
                             }
-
-             /*               TicketSpecification ticketSpecification = new TicketSpecification();
-                            var ticketCheck = await _emailUnitOfWork.Ticket.GetList(ticketSpecification, cancellationToken);
-                            foreach(Ticket ticket2 in ticketCheck)
-                            {
-                                if(emailStack2.ProjectId == ticket2.ProjectId && emailStack2.SubjectStack != ticket2.Title)
-                                {
-                                    await TickertMaker(emailStack2, projectInfo, cancellationToken);
-                                }
-                             }*/
-/*                            foreach(Ticket ticket in projectInfo.Tickets.ToList())
-                            {
-                                    Ticket ticket1 = new Ticket();
-                                    var objectTitle =await _emailUnitOfWork.Ticket.GetObjectByTitle(emailStack2.SubjectStack, cancellationToken);
-                                   *//* ticket1 = objectTitle;
-                                    ticket1.Title = objectTitle.Title;*/
-
-                                /*if (emailStack2.SubjectStack != null && emailStack2.SubjectStack != ticket.Title && emailStack2.ProjectId == projectInfo.Id)*//*
-                            
-                                if (emailStack2.SubjectStack != objectTitle.Title)
-                                {
-                                    var ticketConvert = TicketToEmail2(emailStack2);
-
-                                    var getProject = await _emailUnitOfWork.Project.GetObject(ticketConvert.ProjectId, cancellationToken);
-                                    ticketConvert.Project = getProject;
-                                    ticketConvert.Application = getProject.Name;
-
-
-                                    var getUser = await _emailUnitOfWork.User.GetObject(ticketConvert.UserId, cancellationToken);
-                                    ticketConvert.User = getUser;
-                                    ticketConvert.Assign_to_username = getUser.Name;
-
-                                    var getStatus = await _emailUnitOfWork.Status.GetObject(ticketConvert.StatusId, cancellationToken);
-                                    ticketConvert.TicketStatus = getStatus;
-                                    ticketConvert.Ticket_status = getStatus.Name;
-
-                                    await _emailUnitOfWork.Ticket.Insert(ticketConvert, cancellationToken);
-                                    await _emailUnitOfWork.SaveChangesAsync(cancellationToken);
-
-                                    email.Subject = ticketConvert.Title;
-                                    email.TickeId = ticketConvert.Id;
-                                    email.ProjectId = ticketConvert.ProjectId;
-                                    email.To = ticketConvert.Reported_by;
-                                    email.Body = projectInfo.Description;
-
-                                    *//*var id = emailStack.ProjectId;
-                                    Project existingProject = await _dbSetProject.FindAsync(new object[] { id }, cancellationToken);*//*
-                                    await _mailerService.SendEmail(projectInfo.ConvertToMailConfig(), email);
-                                }
-                            }*/
                         }
-
-                    }
-
-                    /*foreach(Ticket ticket1 in ticketConvert) *//*ganti email stack*//*
-                    {
-                        listTicket.Add(ticket1);
-
-                        await _emailUnitOfWork.Ticket.Insert(ticket1, cancellationToken);
-                        await _emailUnitOfWork.SaveChangesAsync(cancellationToken);
-
-                        MailConfig mailConfig = new MailConfig();
-                        mailConfig.ProjectId = ticket1.ProjectId;
-                        
-                    }*/
-                        /*foreach (Ticket ticket in projectInfo.Tickets)
-                        {
-
-                            if (ticket.Title != emailStack1.SubjectStack)
-                            {
-                                var ticketConvert = TicketToEmail(stackConvert);
-
-                                foreach (Ticket tickets in ticketConvert.ToList())
-                                {
-                                   
-                                    int id = emailStack1.Id;
-                                    emailStack1.IsProcessed = true;
-                                    await _emailUnitOfWork.emailStack.Update(emailStack1, id);
-                                }
-
-                            }
-                        }*/
-
-                    
+                    }                    
                 }
-
             }
-
-
-
-                /*            foreach (Project project in listAddProject)
-                            {
-                                projectInfo.Id = project.Id;
-                                projectInfo.Sender_mail = project.Sender_mail;
-                                projectInfo.Sender_name = project.Sender_name;
-                                projectInfo.Description = project.Description;
-                                projectInfo.Name = project.Name;
-                                projectInfo.Username = project.Username;
-
-
-                            }
-                            listAddProject.Add(projectInfo);*/
-
-
-
-
-               /* var emailStack = new EmailStack();*/
-
-                /*var getUnreadConvert = await _mailerService.GetUnreadEmail(projectInfo.ConvertToMailConfig());*/
-
-                /*var stackConvert =  ConvertListEmailToListEmailStack(getUnreadConvert);*/
-
-                /* foreach (EmailStack emailStack1 in stackConvert.ToList())
-                 {
-                     listStack.Add(emailStack1);
-                     await Insert(emailStack1, cancellationToken);
-                     await _emailUnitOfWork.SaveChangesAsync(cancellationToken);
-
-                 }*/
-
-                /*var listTicket = new List<Ticket>();*/
-
-            /*            foreach(Ticket ticket in projectInfo.Tickets)
-                        {
-                            if(ticket.Title == emailStack.SubjectStack)
-                            {
-                                var ticketConvert = TicketToEmail(stackConvert);
-
-                                foreach (Ticket tickets in ticketConvert.ToList())
-                                {
-                                    listTicket.Add(tickets);
-
-                                    await _emailUnitOfWork.Ticket.Insert(tickets, cancellationToken);
-                                    await _emailUnitOfWork.SaveChangesAsync(cancellationToken);
-                                }
-                            }
-                        }*/
-
-
-
-
-
-            /*            listtack.ForEach(f => _emailDBContext.EmailStacks.Add(f));
-                       _emailDBContext.SaveChanges();*/
-
-
-           /* listtack.AddRange(stackConvert);
-
-            foreach (var partStack in stackConvert)
-            {
-                for (int i = 0; i < stackConvert.Count; i++)
-                {
-                    emailStack = partStack;
-
-                    listtack.Add(emailStack);
-                    await Insert(emailStack, cancellationToken);
-                    await _emailUnitOfWork.SaveChangeAsync(cancellationToken);
-
-                }
-
-            }*/
-
-
-            /*            listtack.AddRange(stackConvert);*/
-
-            /*            for (int i = 0; i < stackConvert.Count; i++)
-                        {
-
-                            listtack.Add(stackConvert[i]);
-                            await _emailUnitOfWork.SaveChangeAsync(cancellationToken);
-                            await Insert(emailStack, cancellationToken);
-                        }
-                        foreach (var partStackConvert in stackConvert)
-                        {
-                            await _emailUnitOfWork.SaveChangeAsync(cancellationToken);
-
-                            await Insert(partStackConvert, cancellationToken);
-
-                        }*/
-
-
-
-            /*            for (int i = 0; i < stackConvert.Count; i++)
-                        {
-                            emailStack = stackConvert;
-                        }
-                        await _emailUnitOfWork.SaveChangeAsync(cancellationToken);*/
-
-            /*            foreach (var stackC in stackConvert)
-                        {
-                            for (int i = 0; stackConvert.Count >= i++;)
-                            {
-                                if (emailStack == null)
-                                {
-                                    stackC.Id = i;
-                                }
-                            }
-                            stackConvert.Add(stackC);
-                            await Insert(stackC, cancellationToken);
-                        }*/
-
-
             return true;
         }
+
+
+
         public  List<EmailStack> ConvertListEmailToListEmailStack(List<Email> mails)
         {
 
@@ -398,8 +203,13 @@ namespace Helpdesk.Infrastructure.Services
                         MsgIDStack = email.MsgID,
                         SubjectStack = email.Subject,
                         FromStack = email.From,
+                        ToStack = email.To,
                         BodyStack = email.Body,
+                        HtmlAsBodyStack = email.HtmlAsBody,
+                        MailDateTimeStack = email.MailDateTime,
+                        MailDateReStack = email.MailDateRe,
                         IsProcessed = false
+
 
                 };
                 liststack.Add(stacks);
@@ -410,7 +220,7 @@ namespace Helpdesk.Infrastructure.Services
         }
 
         /*Jikalau servis Ticket Maker ingin dipisah*/
-        public async Task<bool> TickertMaker(EmailStack emailStack, Project projectInfo,CancellationToken cancellationToken = default)
+        public async Task<bool> TicketMaker(EmailStack emailStack, Project projectInfo,CancellationToken cancellationToken = default)
         {
             Ticket ticket = new Ticket();
             Email email = new Email();
@@ -443,7 +253,9 @@ namespace Helpdesk.Infrastructure.Services
             email.ProjectId = ticketNewConvert.ProjectId;
             email.ProjectName = ticketNewConvert.Application;
             email.To = ticketNewConvert.Reported_by;
+            email.MailDateTime = ticketNewConvert.Submission_date;
             email.Body = ticketNewConvert.Problem_description;
+            email.StatusTicket = ticketNewConvert.Ticket_status;
 
             await _mailerService.SendEmail(projectInfo.ConvertToMailConfig(), email);
             return true;
@@ -477,13 +289,13 @@ namespace Helpdesk.Infrastructure.Services
             ticket.ProjectId = emailStack.ProjectId;
             ticket.Title = emailStack.SubjectStack;
             ticket.Problem_description = emailStack.BodyStack;
+            
             ticket.Reported_by = emailStack.FromStack;
+            
             ticket.UserId = 2;
                 
             ticket.StatusId = 1;
             ticket.Submission_date = DateTime.Now;
-            
-            
 
             return ticket;
         }
