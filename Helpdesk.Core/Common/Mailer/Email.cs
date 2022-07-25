@@ -16,11 +16,12 @@ namespace Helpdesk.Core.Common.Mailer
         public string Subject { get; set; }
         public string HtmlAsBody { get; set; }
         public string Body { get; set; }
-        public string BodyConv { get; set; }
+        public string BodyConv {get; set;}
         public DateTime MailDateTime { get; set; }
         public string MsgID { get; set; }
         public string MsgThreadID { get; set; }
         public DateTime MailDateRe { get; set; }
+        public string StatusTicket { get; set; }
 
 
     }
