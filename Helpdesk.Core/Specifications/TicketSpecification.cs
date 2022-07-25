@@ -1,4 +1,4 @@
-﻿using Ardalis.Specification;
+using Ardalis.Specification;
 using Helpdesk.Core.Entities;
 using System;
 
