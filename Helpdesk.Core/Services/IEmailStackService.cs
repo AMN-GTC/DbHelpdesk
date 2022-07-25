@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -33,7 +33,7 @@ namespace Helpdesk.Core.Services
         List<Ticket> TicketToEmail(List<EmailStack> emailStack);
 
         Ticket TicketToEmail2(EmailStack emailStack);
-        public Task<bool> TickertMaker(EmailStack emailStack,Project projectInfo, CancellationToken cancellationToken = default);
+        public Task<bool> TicketMaker(EmailStack emailStack,Project projectInfo, CancellationToken cancellationToken = default);
 
         public Task<bool> TicketMakers(List <EmailStack> emailStacks, CancellationToken cancellationToken = default);
         }
