@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -26,10 +26,7 @@ namespace Helpdesk.Core.Specifications
 
        public Specification<Email> Build()
         {
-            /*if (Idequal.HasValue)
-            {
-                Query.Where(f => f.MsgID == Idequal.Value);
-            }*/
+            
             if (!string.IsNullOrEmpty(SubjectContains))
             {
                 Query.Where(f => f.Subject != null && f.Subject.ToLower().Contains(SubjectContains.ToLower()));
